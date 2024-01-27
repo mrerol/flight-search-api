@@ -1,0 +1,305 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Flight Search API",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "The Flight Search API",
+      "description": "The Flight Search API"
+    }
+  ],
+  "paths": {
+    "/flight-search": {
+      "post": {
+        "tags": [
+          "The Flight Search API"
+        ],
+        "description": "The flight search API",
+        "operationId": "flightSearch",
+        "parameters": [
+          {
+            "name": "Accept-Encoding",
+            "in": "header",
+            "description": "Gzip is a file format used for file compression and decompression.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "gzip"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlightSearchRequest"
+              },
+              "examples": {
+                "FlightSearch-RQ-OW": {
+                  "description": "FlightSearch-RQ-OW",
+                  "value": [
+                    {
+                      "departureDateTime": "2024-01-25",
+                      "departureAirport": "Toronto",
+                      "arrivalAirport": "Moscow"
+                    }
+                  ]
+                },
+                "FlightSearch-RQ-RT": {
+                  "description": "FlightSearch-RQ-RT",
+                  "value": [
+                    {
+                      "departureDateTime": "2024-01-25",
+                      "departureAirport": "Toronto",
+                      "arrivalAirport": "Moscow"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlightSearchResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          },
+          "404": {
+            "description": "Domain not found"
+          },
+          "400": {
+            "description": "Bad request. Invalid extension"
+          }
+        },
+        "security": [
+          {
+            "basicAuth": [ ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FlightSearchRequest": {
+        "type": "object",
+        "properties": {
+          "departureDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "departureAirport": {
+            "type": "string"
+          },
+          "arrivalAirport": {
+            "type": "string"
+          }
+        }
+      },
+      "Airport": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "city": {
+            "type": "string"
+          }
+        }
+      },
+      "Flight": {
+        "type": "object",
+        "properties": {
+          "departureAirport": {
+            "$ref": "#/components/schemas/Airport"
+          },
+          "arrivalAirport": {
+            "$ref": "#/components/schemas/Airport"
+          },
+          "departureDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "returnDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "price": {
+            "type": "number"
+          }
+        }
+      },
+      "FlightSearchResponse": {
+        "type": "object",
+        "properties": {
+          "flightLis": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Flight"
+            }
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "cause": {
+                "type": "object",
+                "properties": {
+                  "stackTrace": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "classLoaderName": {
+                          "type": "string"
+                        },
+                        "moduleName": {
+                          "type": "string"
+                        },
+                        "moduleVersion": {
+                          "type": "string"
+                        },
+                        "methodName": {
+                          "type": "string"
+                        },
+                        "fileName": {
+                          "type": "string"
+                        },
+                        "lineNumber": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "nativeMethod": {
+                          "type": "boolean"
+                        },
+                        "className": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "localizedMessage": {
+                    "type": "string"
+                  }
+                }
+              },
+              "stackTrace": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "classLoaderName": {
+                      "type": "string"
+                    },
+                    "moduleName": {
+                      "type": "string"
+                    },
+                    "moduleVersion": {
+                      "type": "string"
+                    },
+                    "methodName": {
+                      "type": "string"
+                    },
+                    "fileName": {
+                      "type": "string"
+                    },
+                    "lineNumber": {
+                      "type": "integer",
+                      "format": "int32"
+                    },
+                    "nativeMethod": {
+                      "type": "boolean"
+                    },
+                    "className": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "message": {
+                "type": "string"
+              },
+              "suppressed": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "stackTrace": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "classLoaderName": {
+                            "type": "string"
+                          },
+                          "moduleName": {
+                            "type": "string"
+                          },
+                          "moduleVersion": {
+                            "type": "string"
+                          },
+                          "methodName": {
+                            "type": "string"
+                          },
+                          "fileName": {
+                            "type": "string"
+                          },
+                          "lineNumber": {
+                            "type": "integer",
+                            "format": "int32"
+                          },
+                          "nativeMethod": {
+                            "type": "boolean"
+                          },
+                          "className": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "localizedMessage": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "localizedMessage": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}
